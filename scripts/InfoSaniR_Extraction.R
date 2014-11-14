@@ -1,3 +1,4 @@
+# TODO: Please format the code according to R styleguides. You can use "formatR" for example
 ##########################################################################################
 ################Extraction des données d'une année de tous les centres sanitaires#########
 ##########################################################################################
@@ -66,13 +67,23 @@ InfoSaniR_extract<-function(directory,health){
   library(reshape)
   library(stringr)
   
+# TODO: automatically download and install packages that are not present. You can use code from here:
+#http://stackoverflow.com/questions/9341635/how-can-i-check-for-installed-r-packages-before-running-install-packages
+# packages <- c("ggplot2", "dplyr", "Hmisc", "lme4", "arm", "lattice", "lavaan")
+#if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
+#  install.packages(setdiff(packages, rownames(installed.packages())))  
+#}
   #Valididation des inputs
   if (!is.character(directory)|!is.character(health)){stop("Directory ou health n'est pas un caractère!")}
-  if (!is.element(health,c('patho','accouch1','accouh2','malnu','vac'))){stop("l'argument health mal spécifié!")}
+  if (!is.element(health,c('patho','accouch1','accouch2','malnu','vac'))){stop("l'argument health mal spécifié!")}
+  
+  #TODO: output to console on which arguments are valid
   
   #Extraction de la liste fichiers InfoSani et la date
   FileCenter<-list.files(file.path(getwd(),'Data',directory))
   year<-str_extract(FileCenter, "20[0-9]+") 
+  
+  # TODO: use "20[0-9]{2}" or "20[1,2][0-9]". Now this would also accept "20123" as a valid year
   
   #Récupération des départements
   nameDept<-str_sub(FileCenter, start=1,end=str_locate(FileCenter, "_")[,"start"]-1)
@@ -106,6 +117,14 @@ InfoSaniR_extract<-function(directory,health){
     if (sum(ext.fichier)!=length(FileCenter)){stop("Fichier au format non conforme identifié!")}
     else {if (sum(struc.fichier==3|struc.fichier==4)!=length(FileCenter))
                                              {stop("Nom du fichier InfoSani mal structuré!")}}}
+  
+  # TODO: create an output to the console ("cat") on how to name the files
+  # show all files that do not correspond to the required output
+  # add "province" to the structure
+  # For parameters with many elements (province, department, name), you could very from a list
+  # maybe this list can be loaded seperately ?
+  # this verification should come before verifying the department, Type, etc
+  
   
   #Récupération des noms de structures
   namestruc<-c()
